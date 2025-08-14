@@ -1,0 +1,41 @@
+{
+  "name": "workcity-chat-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongodb": "^4.0.7",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.0.3",
+    "eslint": "^9.32.0",
+    "globals": "^16.3.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.39.0"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.19",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.0",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.8.1",
+    "ts-custom-error": "^3.3.1",
+    "ts-node-dev": "^2.0.0",
+    "winston": "^3.17.0"
+  }
+}
