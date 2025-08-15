@@ -58,3 +58,25 @@ export const login = catchAsync(async (req, res, next) => {
     token: accessToken,
   });
 });
+
+export const getSession = catchAsync(async (req, res) => {
+  let token;
+  
+  if (req.headers.authorization)
+    token = req.headers.authorization.split(' ')[1];
+  else token = req.headers.cookie;
+
+  if (!token) throw new AppError('Invalid token', 401);
+
+  const payload = jwt.verify(token, ENVIRONMENT.JWT.KEY) as { id: string };
+
+  const user = await User.findById(payload?.id).select('-password');
+
+  if (!user) throw new AppError('Error', 401);
+
+  res.status(200).json({
+    message: 'Session retrieved successfully',
+    data: user,
+    status: 'success',
+  });
+});
