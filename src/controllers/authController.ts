@@ -46,7 +46,7 @@ export const login = catchAsync(async (req, res, next) => {
   res.cookie('access-token', accessToken, {
     httpOnly: true,
     sameSite: 'none',
-    secure: false,
+    secure: true,
     expires: new Date(Date.now() + 5 * 60 * 60 * 1000), // 5 hours
   });
 
