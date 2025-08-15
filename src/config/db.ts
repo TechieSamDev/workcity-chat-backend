@@ -9,8 +9,7 @@ const connectDB = async () =>
       logger.info('Connected to MongoDB successfully');
     })
     .catch((error) => {
-      logger.error('Failed to connect to MongoDB..Shutting down', error);
-      process.exit();
+      logger.error('Failed to connect to MongoDB', error);
     });
 
 export default connectDB;

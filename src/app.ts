@@ -12,6 +12,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 app.use((req, _res, next) => {
@@ -26,7 +27,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
 
 app.use(errorHandler);
 

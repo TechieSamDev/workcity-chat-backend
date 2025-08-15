@@ -31,7 +31,7 @@ export const signup = catchAsync(async (req, res) => {
   });
 });
 
-export const signin = catchAsync(async (req, res, next) => {
+export const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password)
     return next(new AppError('Email and password are required', 400));

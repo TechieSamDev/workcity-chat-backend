@@ -1,9 +1,9 @@
-import { ENVIRONMENT } from "../config/environment";
-import AppError from "../utils/appError";
-import { NextFunction, Response } from "express";
-import { CastError, Error as MongooseError } from "mongoose";
-import { logger } from "../utils/logger";
-import { MongoServerError } from "mongodb";
+import { ENVIRONMENT } from '../config/environment';
+import AppError from '../utils/appError';
+import { NextFunction, Response } from 'express';
+import { CastError, Error as MongooseError } from 'mongoose';
+import { logger } from '../utils/logger';
+import { MongoServerError } from 'mongodb';
 
 // Error handling functions
 const handleMongooseCastError = (err: CastError) => {
@@ -13,7 +13,7 @@ const handleMongooseCastError = (err: CastError) => {
 
 const handleMongooseValidationError = (err: MongooseError.ValidationError) => {
   const errors = Object.values(err.errors).map((el) => el.message);
-  const message = `Invalid input data. ${errors.join(". ")}`;
+  const message = `Invalid input data. ${errors.join('. ')}`;
   return new AppError(message, 400);
 };
 
@@ -26,17 +26,16 @@ const handleMongooseDuplicateFieldsError = (
 
   if (err.code === 11000) {
     const field = Object.keys(err.keyValue)[0]
-      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
       .split(/(?=[A-Z])/)
       .map((word, index) =>
         index === 0
           ? word.charAt(0).toUpperCase() + word.slice(1)
           : word.toLowerCase()
       )
-      .join("");
+      .join('');
 
-    const value = err.keyValue[field];
-    const message = `${field} "${value}" has already been used!.`;
+    const message = `${field} already been used!.`;
     return new AppError(message, 409);
   } else {
     next(err);
@@ -44,15 +43,15 @@ const handleMongooseDuplicateFieldsError = (
 };
 
 const handleJWTError = () => {
-  return new AppError("Invalid token. Please log in again!", 401);
+  return new AppError('Invalid token. Please log in again!', 401);
 };
 
 const handleJWTExpiredError = () => {
-  return new AppError("Your token has expired!", 401);
+  return new AppError('Your token has expired!', 401);
 };
 
 const handleTimeoutError = () => {
-  return new AppError("Request timeout", 408);
+  return new AppError('Request timeout', 408);
 };
 
 const sendErrorDev = (err: AppError, res: Response) => {
@@ -66,26 +65,26 @@ const sendErrorDev = (err: AppError, res: Response) => {
 
 const sendErrorProd = (err: AppError, res: Response) => {
   if (err?.isOperational) {
-    console.log("Error: ", err);
+    console.log('Error: ', err);
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
       error: err.data,
     });
   } else {
-    console.log("Error: ", err);
+    console.log('Error: ', err);
     res.status(500).json({
-      status: "error",
-      message: "Something went very wrong!",
+      status: 'error',
+      message: 'Something went very wrong!',
     });
   }
 };
 
 export const errorHandler = (err: any, req: any, res: any, next: any) => {
   err.statusCode = err.statusCode || 500;
-  err.status = err.status || "Error";
+  err.status = err.status || 'Error';
 
-  if (ENVIRONMENT.APP.ENV === "development") {
+  if (ENVIRONMENT.APP.ENV === 'development') {
     logger.error(
       `${err.statusCode} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     );
@@ -96,9 +95,9 @@ export const errorHandler = (err: any, req: any, res: any, next: any) => {
       error = handleMongooseCastError(err);
     else if (err instanceof MongooseError.ValidationError)
       error = handleMongooseValidationError(err);
-    if ("timeout" in err && err.timeout) error = handleTimeoutError();
-    if (err.name === "JsonWebTokenError") error = handleJWTError();
-    if (err.name === "TokenExpiredError") error = handleJWTExpiredError();
+    if ('timeout' in err && err.timeout) error = handleTimeoutError();
+    if (err.name === 'JsonWebTokenError') error = handleJWTError();
+    if (err.name === 'TokenExpiredError') error = handleJWTExpiredError();
     if ((err as MongooseError) && err.code === 11000)
       error = handleMongooseDuplicateFieldsError(err, next);
 
