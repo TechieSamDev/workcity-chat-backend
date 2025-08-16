@@ -8,7 +8,10 @@ import { errorHandler } from './controllers/errorHandler';
 
 app.use(
   cors({
-    origin: ['http://localhost:5173'],
+    origin: [
+      'http://localhost:5173',
+      'https://workcity-chat-frontend-techiesam.vercel.app',
+    ],
     credentials: true,
   })
 );
