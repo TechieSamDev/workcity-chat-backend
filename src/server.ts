@@ -7,13 +7,17 @@ import app from './app';
 import connectDB from './config/db';
 import { logger } from './utils/logger';
 import { Server } from 'socket.io';
+import chatSocket from './socketio/chat.socketio';
 
 const server = http.createServer(app);
-const io = new Server(server);
-
-io.on('connection', () => {
-  console.log('a user connected');
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:5173', // React app URL
+    methods: ['GET', 'POST'],
+  },
 });
+
+io.on('connection', (socket) => chatSocket(io, socket));
 
 server.listen(ENVIRONMENT.APP.PORT, () => {
   logger.info(`Server is running on port ${ENVIRONMENT.APP.PORT}`);
