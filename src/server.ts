@@ -12,7 +12,10 @@ import chatSocket from './socketio/chat.socketio';
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173', // React app URL
+    origin: [
+      'http://localhost:5173',
+      'https://workcity-chat-frontend-techiesam.vercel.app',
+    ], 
     methods: ['GET', 'POST'],
   },
 });
