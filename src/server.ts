@@ -15,8 +15,8 @@ const io = new Server(server, {
     origin: [
       'http://localhost:5173',
       'https://workcity-chat-frontend-techiesam.vercel.app',
-    ], 
-    methods: ['GET', 'POST'],
+    ],
+    credentials: true,
   },
 });
 
